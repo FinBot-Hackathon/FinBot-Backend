@@ -1,0 +1,21 @@
+{
+  "name": "organic-farm",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "cfenv": "1.0.x",
+    "express": "~4.13.1",
+    "express-session": "^1.13.0",
+    "express-validator": "^2.19.1",
+    "hat": "0.0.3",
+    "jade": "*",
+    "mysql": "^2.10.2",
+    "optimist": ">= 0.1.0",
+    "sequelize": "^3.27.0",
+    "validator": "^4.5.1"
+  }
+}
