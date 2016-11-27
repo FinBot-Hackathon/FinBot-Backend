@@ -43,7 +43,7 @@ def create_payments(mean, stdev, nper_day, subjects, end_time):
     start = end_time - dt.timedelta(days=365)
     dts = [start + dt.timedelta(days=w) for w in np.cumsum(wait_times)]
     dts = [ts for ts in dts if ts < end_time]
-    amounts = np.random.normal(mean, stdev, len(dts))
+    amounts = np.round(np.random.normal(mean, stdev, len(dts)),2)
     subject_values = np.random.choice(subjects, len(dts))
     result = [(pd.Timestamp(x), 'S', s, a)
               for x, s, a in zip(dts, subject_values, amounts)]
@@ -52,17 +52,18 @@ def create_payments(mean, stdev, nper_day, subjects, end_time):
 
 
 def create_statement_data():
-    income = 2500
-    rent = -900
+	income = 2500
+	rent = -900
 
-    income_payments = create_reccurent_events(income, 'salary')
-    rent_payments = create_reccurent_events(rent, 'rent',
+	income_payments = create_reccurent_events(income, 'salary')
+	rent_payments = create_reccurent_events(rent, 'rent',
                                             dt.timedelta(days=13))
 
-    small_payments = create_payments(-10, 2, 2, ['your coffee shop', 'Cantine', 'best burger shop', 'the juicy juice bar', 'cocktail', 'shopping is fun - your supermarket'], dt.datetime.now())
-    big_payments = create_payments(-50, 27, 0.3, ['The clothes retailer', 'Shirts and more', 'amazon says thank you', 'shopping is fun - your supermarket', 'cocktails'], dt.datetime.now())
+	small_payments = create_payments(-10, 2, 2, ['your coffee shop', 'Cantine', 'best burger shop', 'the juicy juice bar', 'cocktail', 'shopping is fun - your supermarket'], dt.datetime.now())
+	big_payments = create_payments(-50, 27, 0.3, ['The clothes retailer', 'Shirts and more', 'amazon says thank you', 'shopping is fun - your supermarket', 'cocktails'], dt.datetime.now())
 
-    transactions = sorted(income_payments + rent_payments + small_payments + big_payments, key=lambda x: x[0])
-    transactions = np.array(transactions)
-    df = pd.DataFrame(transactions[:, 1:], transactions[:, 0], columns=['type', 'src', 'amount'])
-    return df
+	transactions = sorted(income_payments + rent_payments + small_payments + big_payments, key=lambda x: x[0])
+	transactions = np.array(transactions)
+	df = pd.DataFrame(transactions[:, 1:], transactions[:, 0], columns=['type', 'src', 'amount'])
+	#df.round({'amount': 2})
+	return df

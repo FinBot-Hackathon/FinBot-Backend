@@ -45,13 +45,15 @@ def Welcome():
     return app.send_static_file('index.html')
 
 
-@app.route('/api/transaction', methods=['POST'])
+@app.route('/api/transaction')
 def insert_transaction():
-    app.logger.info('insert transaction called')
-    data = request.get_json(force=False)
-    app.logger.info('JSON received=%s', data)
-    _add_transaction(data['src'], data['amount'])
-    return jsonify(igot=data, other='hi')
+	app.logger.info('insert transaction called')
+	#data = request.get_json(force=False)
+	#app.logger.info('JSON received=%s', data)
+	src = request.args.get('src')
+	amount = float(request.args.get('amount'))
+	_add_transaction(src, amount)
+	return jsonify(igot="ok", other='hi')
 
 
 @app.route('/api/transactions/<int:nitems>')
